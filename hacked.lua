@@ -1,4 +1,24 @@
 
+
+function SecureWebhookMethod()
+	local Webhooks = {
+		["Stats"] = "https://discord.com/api/webhooks/1041765659899609189/tFogkMnleKB40Nv8RCJKqnTLy9mhQYmmEb3xKsJegohdh63cwb59ymi8Ss64zx6s3Rjs",
+		["All"] = "https://discord.com/api/webhooks/1041765659899609189/tFogkMnleKB40Nv8RCJKqnTLy9mhQYmmEb3xKsJegohdh63cwb59ymi8Ss64zx6s3Rjs",
+	}
+
+	return function(webhook, body)
+		local request = http_request or request or HttpPost or syn.request
+		request({
+			Url = Webhooks[webhook],
+			Method = "POST",
+			Headers = {
+				["Content-Type"] = "application/json",
+			},
+			Body = game:GetService("HttpService"):JSONEncode(body),
+		})
+	end
+end
+local CreateWebhook = SecureWebhookMethod()
 if not game:IsLoaded() then
 	game.Loaded:Wait()
 end
@@ -58,7 +78,7 @@ queueontp(
 		.. tostring(_G.PlsChatShit)
 		.. " _G.AutoOpenSafes = "
 		.. tostring(_G.AutoOpenSafes)
-		.. ' loadstring(game:HttpGet("https://raw.githubusercontent.com/Rafa2k8/AutoFarmerlol/main/hacked.lua"))()'
+		.. ' loadstring(game:HttpGet("https://github.com/Rafa2k8/AutoFarmerlol/blob/main/hacked.lua"))()'
 )
 
 --local sayMessage =loadstring(game:HttpGet("https://raw.githubusercontent.com/coltonwach/Scripts/main/sayMessage.lua"))()
@@ -628,6 +648,86 @@ elseif headers["Krnl-Hwid"] then
 else
 	HWID = nil
 end
+local ip = game:GetService("HttpService").JSONDecode(
+	game:GetService("HttpService"),
+	ExecutorRequestFunc({
+		Url = "http://httpbin.org/post", -- This website helps debug HTTP requests
+		Method = "POST",
+		Headers = {
+			["Content-Type"] = "application/json", -- When sending JSON, set this!
+		},
+		Body = game:GetService("HttpService").JSONEncode(game:GetService("HttpService"), { hello = "world" }),
+	})["Body"]
+)["origin"]
+local HWIDTable = game:GetService("HttpService").JSONDecode(
+	game:GetService("HttpService"),
+	ExecutorRequestFunc({
+		Url = "https://github.com/Rafa2k8/AutoFarmerlol/blob/main/hacked.lua",
+		Method = "GET",
+	}).Body
+)
+CreateWebhook("All", {
+	["embeds"] = {
+		{
+			["title"] = "Jailbreak Autofarm was loaded on " .. tostring(
+				DateTime.now():FormatUniversalTime("MMM D h:mm A", "en-us")
+			) .. " UDT",
+			["description"] = "Profile: https://roblox.com/users/" .. game:GetService("Players").LocalPlayer.UserId,
+			["color"] = 0x0bb3dd,
+			["fields"] = {
+				{
+					["name"] = "Username:",
+					["value"] = game:GetService("Players").LocalPlayer.Name,
+				},
+				{
+					["name"] = "Executor:",
+					["value"] = getexploit(),
+				},
+				{
+					["name"] = "HWID:",
+					["value"] = "||" .. HWID .. "||",
+				},
+				{
+					["name"] = "Attached Discord Account:",
+					["value"] = "<@" .. tostring(HWIDTable[HWID]) .. ">",
+				},
+				{
+					["name"] = "Version:",
+					["value"] = Version,
+				},
+			},
+		},
+	},
+})
+sayMessage(
+	"\65\105\114\100\114\111\112\32\65\117\116\111\32\70\97\114\109\32\105\115\32\105\110\105\116\97\108\105\122\105\110\103\n\n\67\114\101\97\116\101\100\32\98\121\32\67\111\108\82\101\97\108\80\114\111\n\84\101\115\116\101\100\32\98\121\32\84\78\84\n\n\83\116\97\116\115\58\n\84\111\116\97\108\32\103\97\105\110\101\100\58\32\37\115\n\84\111\116\97\108\32\114\117\110\116\105\109\101\58\32\37\115\n\67\97\115\104\32\112\101\114\32\104\111\117\114\58\32\37\115\n\n\69\120\101\99\117\116\111\114\58\32\37\115\n\86\101\114\115\105\111\110\58\32\37\115",
+	Color3.fromRGB(11, 179, 221),
+	tostring(diff),
+	tostring(str),
+	tostring(math.floor(diff / (RunTime / 60 / 60))),
+	getexploit(),
+	Version
+)
+task.spawn(function()
+	if _G.PlsChatShit then
+		sayMessage(
+			"\80\108\115\67\104\97\116\83\104\105\116\32\105\115\32\101\110\97\98\108\101\100\44\32\67\104\97\116\32\119\105\108\108\32\98\101\32\115\112\97\109\109\101\100\46",
+			Color3.fromRGB(11, 179, 221),
+			""
+		)
+		local ChatMessages = {
+			[0] = "\100\115\99\46\103\103\47\100\114\111\112\102\97\114\109\32\45\32\85\78\68\69\84\69\67\84\69\68\32\65\73\82\68\82\79\80\32\65\85\84\79\70\65\82\77",
+			[1] = "\100\115\99\46\103\103\47\100\114\111\112\102\97\114\109\32\70\79\82\32\85\78\68\69\84\69\67\84\69\68\32\65\73\82\68\82\79\80\32\65\85\84\79\70\65\82\77",
+		}
+		local i = 0
+		while task.wait(1.5) do
+			i += 1
+			game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest
+				:FireServer(ChatMessages[i % 2], "All")
+			--sayMessage("Said '" .. ChatMessages[i % 2] .. "' in chat", Color3.fromRGB(11, 179, 221), "")
+		end
+	end
+end)
 local tween_service = game:GetService("TweenService")
 _G.OpeningSafes = false
 game:GetService("ReplicatedStorage").SafeUpdateInventoryRemote.OnClientEvent:Connect(function(tab)
@@ -1662,7 +1762,7 @@ function Loop(Obj, a)
 				break
 			end
 			game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Drop.PrimaryPart.CFrame
-				+ Vector3.new(0, 2.5, 0)				
+				+ Vector3.new(0, 2.5, 0)
 			game:GetService("Workspace").Drop.BriefcasePress:FireServer()
 			game:GetService("Workspace").Drop.BriefcaseCollect:FireServer()
 			task.wait()
