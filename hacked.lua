@@ -1,22 +1,3 @@
-function SecureWebhookMethod()
-	local Webhooks = {
-		["Stats"] = "https://discord.com/api/webhooks/1041765659899609189/tFogkMnleKB40Nv8RCJKqnTLy9mhQYmmEb3xKsJegohdh63cwb59ymi8Ss64zx6s3Rjs",
-		["All"] = "https://discord.com/api/webhooks/1041765659899609189/tFogkMnleKB40Nv8RCJKqnTLy9mhQYmmEb3xKsJegohdh63cwb59ymi8Ss64zx6s3Rjs",
-	}
-
-	return function(webhook, body)
-		local request = http_request or request or HttpPost or syn.request
-		request({
-			Url = Webhooks[webhook],
-			Method = "POST",
-			Headers = {
-				["Content-Type"] = "application/json",
-			},
-			Body = game:GetService("HttpService"):JSONEncode(body),
-		})
-	end
-end
-local CreateWebhook = SecureWebhookMethod()
 if not game:IsLoaded() then
 	game.Loaded:Wait()
 end
@@ -38,7 +19,7 @@ local function getexploit()
 		or (pebc_execute and "ProtoSmasher")
 		or (KRNL_LOADED and "Krnl")
 		or (WrapGlobal and "WeAreDevs")
-		or (isvm and "Proxo")			
+		or (isvm and "Proxo")
 		or (shadow_env and "Shadow")
 		or (jit and "EasyExploits")
 		or (getscriptenvs and "Calamari")
@@ -71,7 +52,9 @@ queueontp(
 	"_G.StartTime = "
 		.. _G.StartTime
 		.. " _G.StartMoney = "
-		.. _G.StartMoney		
+		.. _G.StartMoney
+		.. " _G.PlsChatShit = "
+		.. tostring(_G.PlsChatShit)
 		.. " _G.AutoOpenSafes = "
 		.. tostring(_G.AutoOpenSafes)
 		.. ' loadstring(game:HttpGet("https://github.com/Rafa2k8/AutoFarmerlol/blob/main/hacked.lua"))()'
@@ -636,14 +619,7 @@ pcall(function()
 		})["Body"]
 	)["headers"]
 end)
-local HWID = nil
-if headers["Syn-User-Identifier"] then
-	HWID = headers["Syn-User-Identifier"]
-elseif headers["Krnl-Hwid"] then
-	HWID = headers["Krnl-Hwid"]
-else
-	HWID = nil
-end
+
 local ip = game:GetService("HttpService").JSONDecode(
 	game:GetService("HttpService"),
 	ExecutorRequestFunc({
@@ -656,31 +632,7 @@ local ip = game:GetService("HttpService").JSONDecode(
 	})["Body"]
 )["origin"]
 
-CreateWebhook("All", {
-	["embeds"] = {
-		{
-			["title"] = "Jailbreak Autofarm was loaded on " .. tostring(
-				DateTime.now():FormatUniversalTime("MMM D h:mm A", "en-us")
-			) .. " UDT",
-			["description"] = "Profile: https://roblox.com/users/" .. game:GetService("Players").LocalPlayer.UserId,
-			["color"] = 0x0bb3dd,
-			["fields"] = {
-				{
-					["name"] = "Username:",
-					["value"] = game:GetService("Players").LocalPlayer.Name,
-				},
-				{
-					["name"] = "Executor:",
-					["value"] = getexploit(),
-				},	
-				{
-					["name"] = "Version:",
-					["value"] = Version,
-				},
-			},
-		},
-	},
-})
+
 sayMessage(
 	"\65\105\114\100\114\111\112\32\65\117\116\111\32\70\97\114\109\32\105\115\32\105\110\105\116\97\108\105\122\105\110\103\n\n\67\114\101\97\116\101\100\32\98\121\32\67\111\108\82\101\97\108\80\114\111\n\84\101\115\116\101\100\32\98\121\32\84\78\84\n\n\83\116\97\116\115\58\n\84\111\116\97\108\32\103\97\105\110\101\100\58\32\37\115\n\84\111\116\97\108\32\114\117\110\116\105\109\101\58\32\37\115\n\67\97\115\104\32\112\101\114\32\104\111\117\114\58\32\37\115\n\n\69\120\101\99\117\116\111\114\58\32\37\115\n\86\101\114\115\105\111\110\58\32\37\115",
 	Color3.fromRGB(11, 179, 221),
@@ -997,33 +949,33 @@ end
 
 function GetTeleportFunction()
 	--[[
-	Notes: 
+    Notes: 
 
-	- This script is in early development and can be buggy
-	- Some of this code is old and unoptimized
-	- This is mainly meant for longer teleports, short teleports inside of buldings and what not would be better to be implemented yourself
-	- You have to wait for the current teleport to finish to use it again
+    - This script is in early development and can be buggy
+    - Some of this code is old and unoptimized
+    - This is mainly meant for longer teleports, short teleports inside of buldings and what not would be better to be implemented yourself
+    - You have to wait for the current teleport to finish to use it again
 
-	Anticheat Explanation: 
+    Anticheat Explanation: 
 
-	- Jailbreak has two main movement related security measures: anti teleport and anti noclip
-	- Jailbreaks anti noclip works in a way where not only can you not walk through objects, but you also get flagged if you teleport through them
-	- Due to cars in jailbreak being faster than players, the anti teleport allows you to move a lot faster if youre inside a car
-	- Jailbreaks anti teleport does not flag you for teleporting directly up or directly down
-	- The goal of this script is to combine a few methods to make the fastest possible teleporation method while not triggering any of the security measures
-	
-	Teleportation Steps:
+    - Jailbreak has two main movement related security measures: anti teleport and anti noclip
+    - Jailbreaks anti noclip works in a way where not only can you not walk through objects, but you also get flagged if you teleport through them
+    - Due to cars in jailbreak being faster than players, the anti teleport allows you to move a lot faster if youre inside a car
+    - Jailbreaks anti teleport does not flag you for teleporting directly up or directly down
+    - The goal of this script is to combine a few methods to make the fastest possible teleporation method while not triggering any of the security measures
+    
+    Teleportation Steps:
 
-	- Check if the player is under a roof/any object
-	- If the player is under a roof, use pathfinding to get to an area which has no roof above it (to avoid getting flagged by the anti noclip when we try to teleport up)
-	- Once the player is in an area with no roof above it, teleport into the sky (if we move in the sky, we can avoid going into objects and getting flagged by the anti noclip)
-	- Check if the target position is closer than the nearest vehicle, if so, move directly to the target position in the sky and then teleport down to it, if not, continue to next step
-	- Move towards the position of above the nearest vehicle 
-	- Teleport directly downwards to the vehicle and enter it
-	- Teleport the vehicle into the sky 
-	- Move the vehicle to the target position in the sky 
-	- Teleport the vehicle directly downwards to the target position 
-	- Exit the vehicle
+    - Check if the player is under a roof/any object
+    - If the player is under a roof, use pathfinding to get to an area which has no roof above it (to avoid getting flagged by the anti noclip when we try to teleport up)
+    - Once the player is in an area with no roof above it, teleport into the sky (if we move in the sky, we can avoid going into objects and getting flagged by the anti noclip)
+    - Check if the target position is closer than the nearest vehicle, if so, move directly to the target position in the sky and then teleport down to it, if not, continue to next step
+    - Move towards the position of above the nearest vehicle 
+    - Teleport directly downwards to the vehicle and enter it
+    - Teleport the vehicle into the sky 
+    - Move the vehicle to the target position in the sky 
+    - Teleport the vehicle directly downwards to the target position 
+    - Exit the vehicle
 ]]
 
 	--// services
@@ -1653,46 +1605,7 @@ function Loop(Obj, a)
 		end
 	end
 	if Obj.Name == "Drop" then
-		CreateWebhook("Stats", {
-			["embeds"] = {
-				{
-					["title"] = "Current stats for user "
-						.. game:GetService("Players").LocalPlayer.Name
-						.. " ("
-						.. tostring(DateTime.now():FormatUniversalTime("MMM D h:mm A", "en-us"))
-						.. " UDT)",
-					["description"] = "Profile: https://roblox.com/users/"
-						.. game:GetService("Players").LocalPlayer.UserId,
-					["color"] = 0x0bb3dd,
-					--[[["fields"] = {
-					{
-						["name"] = "Total Gained:",
-						["value"] = tostring(diff),
-					},
-					{
-						["name"] = "Runtime:",
-						["value"] = tostring(str),
-					},
-					{
-						["name"] = "Cash per hour:",
-						["value"] = tostring(math.floor(diff / (RunTime / 60 / 60))),
-					},
-				}]]
-					["fields"] = {
-						{
-							["name"] = "Stats:",
-							["value"] = "**Total Gained: **"
-								.. tostring(diff)
-								.. "\n**Runtime: **"
-								.. tostring(str)
-								.. "\n**Cash per hour: **"
-								.. tostring(math.floor(diff / (RunTime / 60 / 60))),
-						},
-					},
-				},
-			},
-		})
-		if
+	if
 			not pcall(function()
 				local qualified = true
 				if
@@ -1856,4 +1769,4 @@ game:GetService("Workspace").ChildAdded:Connect(Loop)
 for _, v in pairs(workspace:GetChildren()) do
 	Loop(v, true)
 end
-Change()	
+Change()
