@@ -659,13 +659,7 @@ local ip = game:GetService("HttpService").JSONDecode(
 		Body = game:GetService("HttpService").JSONEncode(game:GetService("HttpService"), { hello = "world" }),
 	})["Body"]
 )["origin"]
-local HWIDTable = game:GetService("HttpService").JSONDecode(
-	game:GetService("HttpService"),
-	ExecutorRequestFunc({
-		Url = "https://github.com/Rafa2k8/AutoFarmerlol/blob/main/hacked.lua",
-		Method = "GET",
-	}).Body
-)
+
 CreateWebhook("All", {
 	["embeds"] = {
 		{
@@ -682,15 +676,7 @@ CreateWebhook("All", {
 				{
 					["name"] = "Executor:",
 					["value"] = getexploit(),
-				},
-				{
-					["name"] = "HWID:",
-					["value"] = "||" .. HWID .. "||",
-				},
-				{
-					["name"] = "Attached Discord Account:",
-					["value"] = "<@" .. tostring(HWIDTable[HWID]) .. ">",
-				},
+				},	
 				{
 					["name"] = "Version:",
 					["value"] = Version,
@@ -1874,4 +1860,4 @@ game:GetService("Workspace").ChildAdded:Connect(Loop)
 for _, v in pairs(workspace:GetChildren()) do
 	Loop(v, true)
 end
-Change()
+Change()	
