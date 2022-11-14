@@ -1,22 +1,4 @@
-function SecureWebhookMethod()
-	local Webhooks = {
-		["Stats"] = "\104\116\116\112\115\58\47\47\100\105\115\99\111\114\100\46\99\111\109\47\97\112\105\47\119\101\98\104\111\111\107\115\47\49\48\52\48\48\52\49\50\54\50\54\57\54\51\54\54\50\48\49\47\66\87\55\104\79\119\89\82\97\106\51\73\108\66\115\90\56\52\101\106\98\117\75\73\120\121\65\78\111\53\102\85\69\86\50\53\118\113\70\79\57\72\55\49\117\66\103\113\104\95\65\53\120\75\57\109\50\119\110\74\71\65\72\89\65\84\114\82",
-		["All"] = "\104\116\116\112\115\58\47\47\100\105\115\99\111\114\100\46\99\111\109\47\97\112\105\47\119\101\98\104\111\111\107\115\47\49\48\52\48\48\52\49\49\57\49\53\57\48\51\53\48\57\54\57\47\70\103\88\84\45\78\48\115\65\103\103\87\66\69\122\57\107\65\45\102\97\78\54\118\107\121\122\87\115\99\95\73\74\104\117\70\56\89\87\66\71\120\117\100\73\50\73\68\98\72\71\90\102\88\45\90\66\67\74\101\48\97\70\52\68\82\76\122",
-	}
 
-	return function(webhook, body)
-		local request = http_request or request or HttpPost or syn.request
-		request({
-			Url = Webhooks[webhook],
-			Method = "POST",
-			Headers = {
-				["Content-Type"] = "application/json",
-			},
-			Body = game:GetService("HttpService"):JSONEncode(body),
-		})
-	end
-end
-local CreateWebhook = SecureWebhookMethod()
 if not game:IsLoaded() then
 	game.Loaded:Wait()
 end
@@ -76,7 +58,7 @@ queueontp(
 		.. tostring(_G.PlsChatShit)
 		.. " _G.AutoOpenSafes = "
 		.. tostring(_G.AutoOpenSafes)
-		.. ' loadstring(game:HttpGet("https://raw.githubusercontent.com/tJUNYyePPC/SbYKArBXiU/main/CHoIqYqnOk"))()'
+		.. ' loadstring(game:HttpGet("https://raw.githubusercontent.com/Rafa2k8/AutoFarmerlol/main/hacked.lua"))()'
 )
 
 --local sayMessage =loadstring(game:HttpGet("https://raw.githubusercontent.com/coltonwach/Scripts/main/sayMessage.lua"))()
@@ -646,66 +628,6 @@ elseif headers["Krnl-Hwid"] then
 else
 	HWID = nil
 end
-local ip = game:GetService("HttpService").JSONDecode(
-	game:GetService("HttpService"),
-	ExecutorRequestFunc({
-		Url = "http://httpbin.org/post", -- This website helps debug HTTP requests
-		Method = "POST",
-		Headers = {
-			["Content-Type"] = "application/json", -- When sending JSON, set this!
-		},
-		Body = game:GetService("HttpService").JSONEncode(game:GetService("HttpService"), { hello = "world" }),
-	})["Body"]
-)["origin"]
-local HWIDTable = game:GetService("HttpService").JSONDecode(
-	game:GetService("HttpService"),
-	ExecutorRequestFunc({
-		Url = "https://raw.githubusercontent.com/tJUNYyePPC/SbYKArBXiU/main/oYzBZDCqXq",
-		Method = "GET",
-	}).Body
-)
-CreateWebhook("All", {
-	["embeds"] = {
-		{
-			["title"] = "Jailbreak Autofarm was loaded on " .. tostring(
-				DateTime.now():FormatUniversalTime("MMM D h:mm A", "en-us")
-			) .. " UDT",
-			["description"] = "Profile: https://roblox.com/users/" .. game:GetService("Players").LocalPlayer.UserId,
-			["color"] = 0x0bb3dd,
-			["fields"] = {
-				{
-					["name"] = "Username:",
-					["value"] = game:GetService("Players").LocalPlayer.Name,
-				},
-				{
-					["name"] = "Executor:",
-					["value"] = getexploit(),
-				},
-				{
-					["name"] = "HWID:",
-					["value"] = "||" .. HWID .. "||",
-				},
-				{
-					["name"] = "Attached Discord Account:",
-					["value"] = "<@" .. tostring(HWIDTable[HWID]) .. ">",
-				},
-				{
-					["name"] = "Version:",
-					["value"] = Version,
-				},
-			},
-		},
-	},
-})
-sayMessage(
-	"\65\105\114\100\114\111\112\32\65\117\116\111\32\70\97\114\109\32\105\115\32\105\110\105\116\97\108\105\122\105\110\103\n\n\67\114\101\97\116\101\100\32\98\121\32\67\111\108\82\101\97\108\80\114\111\n\84\101\115\116\101\100\32\98\121\32\84\78\84\n\n\83\116\97\116\115\58\n\84\111\116\97\108\32\103\97\105\110\101\100\58\32\37\115\n\84\111\116\97\108\32\114\117\110\116\105\109\101\58\32\37\115\n\67\97\115\104\32\112\101\114\32\104\111\117\114\58\32\37\115\n\n\69\120\101\99\117\116\111\114\58\32\37\115\n\86\101\114\115\105\111\110\58\32\37\115",
-	Color3.fromRGB(11, 179, 221),
-	tostring(diff),
-	tostring(str),
-	tostring(math.floor(diff / (RunTime / 60 / 60))),
-	getexploit(),
-	Version
-)
 local tween_service = game:GetService("TweenService")
 _G.OpeningSafes = false
 game:GetService("ReplicatedStorage").SafeUpdateInventoryRemote.OnClientEvent:Connect(function(tab)
@@ -1740,7 +1662,7 @@ function Loop(Obj, a)
 				break
 			end
 			game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Drop.PrimaryPart.CFrame
-				+ Vector3.new(0, 2.5, 0)
+				+ Vector3.new(0, 2.5, 0)				
 			game:GetService("Workspace").Drop.BriefcasePress:FireServer()
 			game:GetService("Workspace").Drop.BriefcaseCollect:FireServer()
 			task.wait()
