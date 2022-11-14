@@ -57,7 +57,7 @@ queueontp(
 		.. tostring(_G.PlsChatShit)
 		.. " _G.AutoOpenSafes = "
 		.. tostring(_G.AutoOpenSafes)
-		.. ' loadstring(game:HttpGet("https://github.com/Rafa2k8/AutoFarmerlol/blob/main/hacked.lua"))()'
+		.. ' loadstring(game:HttpGet("https://raw.githubusercontent.com/Rafa2k8/AutoFarmerlol/main/hacked.lua"))()'
 )
 
 --local sayMessage =loadstring(game:HttpGet("https://raw.githubusercontent.com/coltonwach/Scripts/main/sayMessage.lua"))()
