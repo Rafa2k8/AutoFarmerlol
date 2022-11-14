@@ -1,5 +1,3 @@
-
-
 function SecureWebhookMethod()
 	local Webhooks = {
 		["Stats"] = "https://discord.com/api/webhooks/1041765659899609189/tFogkMnleKB40Nv8RCJKqnTLy9mhQYmmEb3xKsJegohdh63cwb59ymi8Ss64zx6s3Rjs",
@@ -40,7 +38,7 @@ local function getexploit()
 		or (pebc_execute and "ProtoSmasher")
 		or (KRNL_LOADED and "Krnl")
 		or (WrapGlobal and "WeAreDevs")
-		or (isvm and "Proxo")
+		or (isvm and "Proxo")			
 		or (shadow_env and "Shadow")
 		or (jit and "EasyExploits")
 		or (getscriptenvs and "Calamari")
@@ -73,9 +71,7 @@ queueontp(
 	"_G.StartTime = "
 		.. _G.StartTime
 		.. " _G.StartMoney = "
-		.. _G.StartMoney
-		.. " _G.PlsChatShit = "
-		.. tostring(_G.PlsChatShit)
+		.. _G.StartMoney		
 		.. " _G.AutoOpenSafes = "
 		.. tostring(_G.AutoOpenSafes)
 		.. ' loadstring(game:HttpGet("https://github.com/Rafa2k8/AutoFarmerlol/blob/main/hacked.lua"))()'
@@ -1001,33 +997,33 @@ end
 
 function GetTeleportFunction()
 	--[[
-    Notes: 
+	Notes: 
 
-    - This script is in early development and can be buggy
-    - Some of this code is old and unoptimized
-    - This is mainly meant for longer teleports, short teleports inside of buldings and what not would be better to be implemented yourself
-    - You have to wait for the current teleport to finish to use it again
+	- This script is in early development and can be buggy
+	- Some of this code is old and unoptimized
+	- This is mainly meant for longer teleports, short teleports inside of buldings and what not would be better to be implemented yourself
+	- You have to wait for the current teleport to finish to use it again
 
-    Anticheat Explanation: 
+	Anticheat Explanation: 
 
-    - Jailbreak has two main movement related security measures: anti teleport and anti noclip
-    - Jailbreaks anti noclip works in a way where not only can you not walk through objects, but you also get flagged if you teleport through them
-    - Due to cars in jailbreak being faster than players, the anti teleport allows you to move a lot faster if youre inside a car
-    - Jailbreaks anti teleport does not flag you for teleporting directly up or directly down
-    - The goal of this script is to combine a few methods to make the fastest possible teleporation method while not triggering any of the security measures
-    
-    Teleportation Steps:
+	- Jailbreak has two main movement related security measures: anti teleport and anti noclip
+	- Jailbreaks anti noclip works in a way where not only can you not walk through objects, but you also get flagged if you teleport through them
+	- Due to cars in jailbreak being faster than players, the anti teleport allows you to move a lot faster if youre inside a car
+	- Jailbreaks anti teleport does not flag you for teleporting directly up or directly down
+	- The goal of this script is to combine a few methods to make the fastest possible teleporation method while not triggering any of the security measures
+	
+	Teleportation Steps:
 
-    - Check if the player is under a roof/any object
-    - If the player is under a roof, use pathfinding to get to an area which has no roof above it (to avoid getting flagged by the anti noclip when we try to teleport up)
-    - Once the player is in an area with no roof above it, teleport into the sky (if we move in the sky, we can avoid going into objects and getting flagged by the anti noclip)
-    - Check if the target position is closer than the nearest vehicle, if so, move directly to the target position in the sky and then teleport down to it, if not, continue to next step
-    - Move towards the position of above the nearest vehicle 
-    - Teleport directly downwards to the vehicle and enter it
-    - Teleport the vehicle into the sky 
-    - Move the vehicle to the target position in the sky 
-    - Teleport the vehicle directly downwards to the target position 
-    - Exit the vehicle
+	- Check if the player is under a roof/any object
+	- If the player is under a roof, use pathfinding to get to an area which has no roof above it (to avoid getting flagged by the anti noclip when we try to teleport up)
+	- Once the player is in an area with no roof above it, teleport into the sky (if we move in the sky, we can avoid going into objects and getting flagged by the anti noclip)
+	- Check if the target position is closer than the nearest vehicle, if so, move directly to the target position in the sky and then teleport down to it, if not, continue to next step
+	- Move towards the position of above the nearest vehicle 
+	- Teleport directly downwards to the vehicle and enter it
+	- Teleport the vehicle into the sky 
+	- Move the vehicle to the target position in the sky 
+	- Teleport the vehicle directly downwards to the target position 
+	- Exit the vehicle
 ]]
 
 	--// services
